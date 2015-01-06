@@ -39,6 +39,7 @@ $CertName = $argtable["CertName"]
 $codeVersion = $argtable["VerString"]
 $CompanyName = $argtable["CompanyName"]
 $MSBuild = $argtable["MSBuild"]
+$signtool = $argtable["SignTool"]
 
 $DoXenClientSign=''
 if ($BuildType -eq "Release")
@@ -48,7 +49,7 @@ if ($BuildType -eq "Release")
 
 # set a couple of environment variables to propagate to msbuild
 $env:CERTNAME = $CertName
-$env:SIGNTOOLPATH = $signtool+'\signtool.exe'
+$env:SIGNTOOLPATH = ($signtool+"\signtool.exe")
 
 #Set some important variables
 $mywd = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -122,9 +123,9 @@ Invoke-CommandChecked "XenGuestPlugin build" $MSBuild .\XenGuestPlugin\XenGuestP
 #Sign XenGuestPlugin bits
 if ($BuildType -eq "Release")
 {
-	Invoke-CommandChecked "sign XenGuestAgent EXEs" signtool.exe sign /a /s my /n $CertName /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestAgent\$BuildType\*.exe
-	Invoke-CommandChecked "sign XenGuestPlugin DLLs" signtool.exe sign /a /s my /n $CertName /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.dll
-	Invoke-CommandChecked "sign XenGuestPlugin EXEs" signtool.exe sign /a /s my /n $CertName /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.exe
+	Invoke-CommandChecked "sign XenGuestAgent EXEs" ($signtool+"\signtool.exe") sign /a /s my /n $CertName /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestAgent\$BuildType\*.exe
+	Invoke-CommandChecked "sign XenGuestPlugin DLLs" ($signtool+"\signtool.exe") sign /a /s my /n $CertName /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.dll
+	Invoke-CommandChecked "sign XenGuestPlugin EXEs" ($signtool+"\signtool.exe") sign /a /s my /n $CertName /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.exe
 }
 
 #Build remaining MSMs

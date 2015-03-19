@@ -92,7 +92,7 @@ Set-Content .\common_properties.h
 Pop-Location
 
 #Build XenClientGuestService
-Invoke-CommandChecked "Build XenClientGuestService" $MSBuild XenClientGuestService\XenClientGuestServiceVS2012.sln /p:Configuration=$BuildType /p:DoXenClientSign=$DoXenClientSign /p:CertName='\"'$Certname'\"' /p:TargetFrameworkVersion=v4.0 /m
+Invoke-CommandChecked "Build XenClientGuestService" $MSBuild XenClientGuestService\XenClientGuestServiceVS2012.sln /p:Configuration=$BuildType /p:TargetFrameworkVersion=v4.0 /m
 
 #Have to build XenClientGuestService MSMs before the other bits because it does the signing of DLLs as part of the MSBuild
 #As building XenGuestPlugin rebuilds a few of these DLLs without signing it would break our install

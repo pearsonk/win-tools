@@ -123,9 +123,9 @@ Invoke-CommandChecked "XenGuestPlugin build" $MSBuild .\XenGuestPlugin\XenGuestP
 #Sign XenGuestPlugin bits
 if ($BuildType -eq "Release")
 {
-	Invoke-CommandChecked "sign XenGuestAgent EXEs" ($signtool+"\signtool.exe") sign /a /fc SHA256 /s my /n ('"'+$CertName+'"') /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestAgent\$BuildType\*.exe
-	Invoke-CommandChecked "sign XenGuestPlugin DLLs" ($signtool+"\signtool.exe") sign /a /fc SHA256 /s my /n ('"'+$CertName+'"') /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.dll
-	Invoke-CommandChecked "sign XenGuestPlugin EXEs" ($signtool+"\signtool.exe") sign /a /fc SHA256 /s my /n ('"'+$CertName+'"') /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.exe
+	Invoke-CommandChecked "sign XenGuestAgent EXEs" ($signtool+"\signtool.exe") sign /a /fd SHA256 /s my /n ('"'+$CertName+'"') /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestAgent\$BuildType\*.exe
+	Invoke-CommandChecked "sign XenGuestPlugin DLLs" ($signtool+"\signtool.exe") sign /a /fd SHA256 /s my /n ('"'+$CertName+'"') /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.dll
+	Invoke-CommandChecked "sign XenGuestPlugin EXEs" ($signtool+"\signtool.exe") sign /a /fd SHA256 /s my /n ('"'+$CertName+'"') /t http://timestamp.verisign.com/scripts/timestamp.dll XenGuestPlugin\XenGuestPlugin\bin\$BuildType\*.exe
 }
 
 #Build remaining MSMs
